@@ -18,17 +18,14 @@ namespace Prescriptions.Controllers
         {
             _doctorDbRepository = doctorDbRepository;
         }
-        
-        
+
+
         [HttpGet]
         public async Task<IActionResult> GetDoctors()
         {
             var result = await _doctorDbRepository.GetDoctorsFromDbAsync();
 
-            if (result == null)
-            {
-                return BadRequest();
-            }
+            if (result == null) return BadRequest();
 
             return Ok(result);
         }
@@ -40,11 +37,8 @@ namespace Prescriptions.Controllers
             {
                 var result = await _doctorDbRepository.AddDoctorAsync(doctor);
 
-                if (result == null)
-                {
-                    return BadRequest();
-                }
-                
+                if (result == null) return BadRequest();
+
                 return Ok(result);
             }
             catch (ArgumentException e)
@@ -60,11 +54,8 @@ namespace Prescriptions.Controllers
             {
                 var result = await _doctorDbRepository.UpdateDoctorAsync(id, doctor);
 
-                if (result == null)
-                {
-                    return BadRequest();
-                }
-                
+                if (result == null) return BadRequest();
+
                 return Ok(result);
             }
             catch (ArgumentException e)
@@ -80,11 +71,8 @@ namespace Prescriptions.Controllers
             {
                 var result = await _doctorDbRepository.DeleteDoctorAsync(id);
 
-                if (result == null)
-                {
-                    return BadRequest();
-                }
-                
+                if (result == null) return BadRequest();
+
                 return Ok(result);
             }
             catch (ArgumentException e)

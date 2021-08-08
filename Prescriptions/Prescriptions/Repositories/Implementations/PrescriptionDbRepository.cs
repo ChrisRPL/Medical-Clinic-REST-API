@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +11,12 @@ namespace Prescriptions.Repositories.Implementations
     public class PrescriptionDbRepository : IPrescriptionDbRepository
     {
         private readonly MedicamentsDbContext _context;
-        
+
         public PrescriptionDbRepository(MedicamentsDbContext context)
         {
             _context = context;
         }
-        
+
         public async Task<PrescriptionResponseDto> GetPrescription(int id)
         {
             var prescription = await _context.Prescriptions
@@ -27,34 +26,31 @@ namespace Prescriptions.Repositories.Implementations
                 .ThenInclude(x => x.IdMedicamentNavigation)
                 .SingleOrDefaultAsync(x => x.IdPrescription.Equals(id));
 
-            if (prescription == null)
-            {
-                throw new ArgumentException();
-            }
+            if (prescription == null) throw new ArgumentException();
 
-            return new PrescriptionResponseDto()
+            return new PrescriptionResponseDto
             {
                 Date = prescription.Date,
                 DueDate = prescription.DueDate,
-                PatientResponseDto = new PatientResponseDto()
+                PatientResponseDto = new PatientResponseDto
                 {
                     FirstName = prescription.IdPatientNavigation.FirstName,
                     LastName = prescription.IdPatientNavigation.LastName,
                     Birthdate = prescription.IdPatientNavigation.Birthdate
                 },
-                DoctorResponseDto = new DoctorResponseDto()
+                DoctorResponseDto = new DoctorResponseDto
                 {
                     FirstName = prescription.IdDoctorNavigation.FirstName,
                     LastName = prescription.IdDoctorNavigation.LastName,
                     Email = prescription.IdDoctorNavigation.Email
                 },
-                Medicaments = prescription.PrescriptionMedicaments.Select(x=>
+                Medicaments = prescription.PrescriptionMedicaments.Select(x =>
                     new
                     {
-                        Dose = x.Dose,
-                        Details = x.Details,
+                        x.Dose,
+                        x.Details,
                         Med = x.IdMedicamentNavigation
-                    }).Select(x=>new MedicamentResponseDto()
+                    }).Select(x => new MedicamentResponseDto
                 {
                     Name = x.Med.Name,
                     Description = x.Med.Description,

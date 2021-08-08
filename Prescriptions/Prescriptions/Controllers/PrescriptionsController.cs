@@ -17,7 +17,7 @@ namespace Prescriptions.Controllers
         {
             _prescriptionDbRepository = prescriptionDbRepository;
         }
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPrescription([FromRoute] int id)
         {
@@ -25,11 +25,8 @@ namespace Prescriptions.Controllers
             {
                 var result = await _prescriptionDbRepository.GetPrescription(id);
 
-                if (result == null)
-                {
-                    return BadRequest();
-                }
-                
+                if (result == null) return BadRequest();
+
                 return Ok(result);
             }
             catch (ArgumentException e)

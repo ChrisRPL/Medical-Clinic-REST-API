@@ -12,10 +12,11 @@ namespace Prescriptions.Configurations
         {
             builder.HasKey(e => e.IdUser)
                 .HasName("User_pk");
-            
+
             builder.Property(e => e.IdUser).ValueGeneratedOnAdd().HasColumnType("int")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);;
-            
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            ;
+
             builder.Property<string>("Login")
                 .HasColumnType("nvarchar(max)");
 

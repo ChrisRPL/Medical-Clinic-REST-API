@@ -16,7 +16,7 @@ namespace Prescriptions.Repositories.Implementations
         {
             _context = context;
         }
-        
+
         public async Task<ICollection<Doctor>> GetDoctorsFromDbAsync()
         {
             var res = await _context.Doctors.ToListAsync();
@@ -25,12 +25,9 @@ namespace Prescriptions.Repositories.Implementations
 
         public async Task<Doctor> AddDoctorAsync(Doctor doctor)
         {
-            bool idExists = _context.Doctors.Any(dr => dr.IdDoctor.Equals(doctor.IdDoctor));
-            if (idExists)
-            {
-                throw new ArgumentException();
-            }
-            
+            var idExists = _context.Doctors.Any(dr => dr.IdDoctor.Equals(doctor.IdDoctor));
+            if (idExists) throw new ArgumentException();
+
             await _context.Doctors.AddAsync(doctor);
             await _context.SaveChangesAsync();
 
@@ -40,12 +37,9 @@ namespace Prescriptions.Repositories.Implementations
         public async Task<Doctor> UpdateDoctorAsync(int doctorId, Doctor doctor)
         {
             doctor.IdDoctor = doctorId;
-            
-            bool idExists = await _context.Doctors.AnyAsync(dr => dr.IdDoctor.Equals(doctorId));
-            if (!idExists)
-            {
-                throw new ArgumentException();
-            }
+
+            var idExists = await _context.Doctors.AnyAsync(dr => dr.IdDoctor.Equals(doctorId));
+            if (!idExists) throw new ArgumentException();
 
             _context.Doctors.Update(doctor);
             await _context.SaveChangesAsync();
@@ -55,13 +49,10 @@ namespace Prescriptions.Repositories.Implementations
 
         public async Task<Doctor> DeleteDoctorAsync(int doctorId)
         {
-            bool idExists = await _context.Doctors.AnyAsync(dr => dr.IdDoctor.Equals(doctorId));
-            if (!idExists)
-            {
-                throw new ArgumentException();
-            }
+            var idExists = await _context.Doctors.AnyAsync(dr => dr.IdDoctor.Equals(doctorId));
+            if (!idExists) throw new ArgumentException();
 
-            Doctor doctor = await _context.Doctors.Where(dr => dr.IdDoctor.Equals(doctorId)).FirstAsync();
+            var doctor = await _context.Doctors.Where(dr => dr.IdDoctor.Equals(doctorId)).FirstAsync();
 
             _context.Doctors.Remove(doctor);
             await _context.SaveChangesAsync();

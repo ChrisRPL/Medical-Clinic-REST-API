@@ -8,132 +8,123 @@ namespace Prescriptions.Migartions
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Doctor",
-                columns: table => new
+                "Doctor",
+                table => new
                 {
-                    IdDoctor = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    IdDoctor = table.Column<int>("int", nullable: false),
+                    FirstName = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("Doctor_pk", x => x.IdDoctor);
-                });
+                constraints: table => { table.PrimaryKey("Doctor_pk", x => x.IdDoctor); });
 
             migrationBuilder.CreateTable(
-                name: "Medicament",
-                columns: table => new
+                "Medicament",
+                table => new
                 {
-                    IdMedicament = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    IdMedicament = table.Column<int>("int", nullable: false),
+                    Name = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false),
+                    Type = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("Medicament_pk", x => x.IdMedicament);
-                });
+                constraints: table => { table.PrimaryKey("Medicament_pk", x => x.IdMedicament); });
 
             migrationBuilder.CreateTable(
-                name: "Patient",
-                columns: table => new
+                "Patient",
+                table => new
                 {
-                    IdPatient = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Birthdate = table.Column<DateTime>(type: "date", nullable: false)
+                    IdPatient = table.Column<int>("int", nullable: false),
+                    FirstName = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false),
+                    Birthdate = table.Column<DateTime>("date", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("Patient_pk", x => x.IdPatient);
-                });
+                constraints: table => { table.PrimaryKey("Patient_pk", x => x.IdPatient); });
 
             migrationBuilder.CreateTable(
-                name: "Prescription",
-                columns: table => new
+                "Prescription",
+                table => new
                 {
-                    IdPrescription = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "date", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IdPatient = table.Column<int>(type: "int", nullable: false),
-                    IdDoctor = table.Column<int>(type: "int", nullable: false)
+                    IdPrescription = table.Column<int>("int", nullable: false),
+                    Date = table.Column<DateTime>("date", nullable: false),
+                    DueDate = table.Column<DateTime>("date", nullable: false),
+                    IdPatient = table.Column<int>("int", nullable: false),
+                    IdDoctor = table.Column<int>("int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("Prescription_pk", x => x.IdPrescription);
                     table.ForeignKey(
-                        name: "Prescription_Doctor",
-                        column: x => x.IdDoctor,
-                        principalTable: "Doctor",
-                        principalColumn: "IdDoctor",
+                        "Prescription_Doctor",
+                        x => x.IdDoctor,
+                        "Doctor",
+                        "IdDoctor",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "Prescription_Patient",
-                        column: x => x.IdPatient,
-                        principalTable: "Patient",
-                        principalColumn: "IdPatient",
+                        "Prescription_Patient",
+                        x => x.IdPatient,
+                        "Patient",
+                        "IdPatient",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Prescription_Medicament",
-                columns: table => new
+                "Prescription_Medicament",
+                table => new
                 {
-                    IdMedicament = table.Column<int>(type: "int", nullable: false),
-                    IdPrescription = table.Column<int>(type: "int", nullable: false),
-                    Dose = table.Column<int>(type: "int", nullable: false),
-                    Details = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    IdMedicament = table.Column<int>("int", nullable: false),
+                    IdPrescription = table.Column<int>("int", nullable: false),
+                    Dose = table.Column<int>("int", nullable: false),
+                    Details = table.Column<string>("nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("Prescription_Medicament_pk", x => new { x.IdMedicament, x.IdPrescription });
+                    table.PrimaryKey("Prescription_Medicament_pk", x => new {x.IdMedicament, x.IdPrescription});
                     table.ForeignKey(
-                        name: "Prescription_Medicament_Medicament",
-                        column: x => x.IdMedicament,
-                        principalTable: "Medicament",
-                        principalColumn: "IdMedicament",
+                        "Prescription_Medicament_Medicament",
+                        x => x.IdMedicament,
+                        "Medicament",
+                        "IdMedicament",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "Prescription_Medicament_Prescription",
-                        column: x => x.IdPrescription,
-                        principalTable: "Prescription",
-                        principalColumn: "IdPrescription",
+                        "Prescription_Medicament_Prescription",
+                        x => x.IdPrescription,
+                        "Prescription",
+                        "IdPrescription",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prescription_IdDoctor",
-                table: "Prescription",
-                column: "IdDoctor");
+                "IX_Prescription_IdDoctor",
+                "Prescription",
+                "IdDoctor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prescription_IdPatient",
-                table: "Prescription",
-                column: "IdPatient");
+                "IX_Prescription_IdPatient",
+                "Prescription",
+                "IdPatient");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prescription_Medicament_IdPrescription",
-                table: "Prescription_Medicament",
-                column: "IdPrescription");
+                "IX_Prescription_Medicament_IdPrescription",
+                "Prescription_Medicament",
+                "IdPrescription");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Prescription_Medicament");
+                "Prescription_Medicament");
 
             migrationBuilder.DropTable(
-                name: "Medicament");
+                "Medicament");
 
             migrationBuilder.DropTable(
-                name: "Prescription");
+                "Prescription");
 
             migrationBuilder.DropTable(
-                name: "Doctor");
+                "Doctor");
 
             migrationBuilder.DropTable(
-                name: "Patient");
+                "Patient");
         }
     }
 }
