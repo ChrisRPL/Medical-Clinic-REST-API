@@ -3,8 +3,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Castle.Core.Configuration;
+
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.Extensions.Configuration;
 using Prescriptions.DTO.Requests;
 using Prescriptions.DTO.Responses;
 using Prescriptions.Helpers;
@@ -52,7 +53,7 @@ namespace Prescriptions.Repositories.Implementations
             return new AuthResponseDto
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(
-                    SecurityHelper.GenerateToken(user.Login, _configuration.Attributes["Secret"])),
+                    SecurityHelper.GenerateToken(user.Login, _configuration["Secret"])),
                 RefreshToken = refrToken
             };
         }
@@ -75,7 +76,7 @@ namespace Prescriptions.Repositories.Implementations
             return new AuthResponseDto
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(
-                    SecurityHelper.GenerateToken(validTokenUser.Login, _configuration.Attributes["Secret"])),
+                    SecurityHelper.GenerateToken(validTokenUser.Login, _configuration["Secret"])),
                 RefreshToken = newRefreshToken
             };
         }
