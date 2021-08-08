@@ -53,6 +53,7 @@ namespace Prescriptions
             });
             services.AddScoped<IDoctorDbRepository, DoctorDbRepository>();
             services.AddScoped<IPrescriptionDbRepository, PrescriptionDbRepository>();
+            services.AddScoped<IAccountDbRepository, AccountDbRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
